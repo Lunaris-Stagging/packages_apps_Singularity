@@ -2954,4 +2954,8 @@
     <string name="lockscreen_unlock_effect_hfr_summary">Animate Water and Watercolor at the display refresh rate</string>
     <string name="lockscreen_water_ripple_fullscreen_title">Fullscreen water ripple</string>
     <string name="lockscreen_water_ripple_fullscreen_summary">Let Water waves fill the screen and bounce off its edges</string>
+
+    <!-- Screenshot flash -->
+    <string name="miscellaneous_screenshot_flash_title">Show screenshot flash</string>
+    <string name="miscellaneous_screenshot_flash_summary">Briefly flash the screen when a screenshot is taken</string>
 </resources>
