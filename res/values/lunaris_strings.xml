@@ -2738,6 +2738,10 @@
     <string name="clock_album_art_color_title">Album art color clocks</string>
     <string name="clock_album_art_color_summary">Override clock color with the album art palette when media is playing</string>
 
+    <!-- Lockscreen clock: hyperos color blend -->
+    <string name="lock_screen_custom_clock_hyper_blur_title">Color blend clocks</string>
+    <string name="lock_screen_custom_clock_hyper_blur_summary">Override clock color with blur color blend style (only for hyperos clocks)</string>
+
     <!-- AppLock and Sandbox -->
     <string name="applocker_sandbox_title">AppLock and Sandbox</string>
     <string name="applocker_sandbox_summary">Open the AppLock and Sandbox management app</string>

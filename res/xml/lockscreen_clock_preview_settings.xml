@@ -56,6 +56,12 @@
             android:summary="@string/custom_color_summary"
             android:persistent="false" />
 
+        <org.lunaris.settings.preferences.SecureSettingSwitchPreference
+            android:key="lock_screen_custom_clock_hyper_blur"
+            android:title="@string/lock_screen_custom_clock_hyper_blur_title"
+            android:summary="@string/lock_screen_custom_clock_hyper_blur_summary"
+            android:defaultValue="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
