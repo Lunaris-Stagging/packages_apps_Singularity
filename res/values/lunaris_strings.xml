@@ -2880,4 +2880,8 @@
     <!-- Settings homepage styles -->
     <string name="compose_homepage_title">Compose homepage</string>
     <string name="compose_homepage_summary">Use the new Compose-based Settings homepage. Restart Settings to apply.</string>
+
+    <!-- Screen on animation -->
+    <string name="lockscreen_water_ripple_title">Water ripple unlock</string>
+    <string name="lockscreen_water_ripple_summary">Show a water ripple from the fingerprint sensor when unlocking</string>
 </resources>
