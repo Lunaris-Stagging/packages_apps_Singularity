@@ -2755,6 +2755,8 @@
     <!-- Lockscreen clock: hyperos color blend -->
     <string name="lock_screen_custom_clock_hyper_blur_title">Color blend clocks</string>
     <string name="lock_screen_custom_clock_hyper_blur_summary">Override clock color with blur color blend style (only for hyperos clocks)</string>
+    <string name="lock_screen_custom_clock_hyper_live_blur_title">Live blur clocks</string>
+    <string name="lock_screen_custom_clock_hyper_live_blur_summary">Blur the live background inside HyperOS clock digits with the selected tint. Overrides Color blend while enabled.</string>
 
     <!-- AppLock and Sandbox -->
     <string name="applocker_sandbox_title">AppLock and Sandbox</string>
