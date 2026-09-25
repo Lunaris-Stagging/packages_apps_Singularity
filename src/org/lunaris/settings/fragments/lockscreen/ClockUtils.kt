@@ -109,8 +109,18 @@ object ClockUtils {
         R.layout.keyguard_clock_hyperos, // 96
         R.layout.keyguard_clock_hyperos, // 97
         R.layout.keyguard_clock_hyperos, // 98
-        R.layout.keyguard_clock_hyperos // 99
+        R.layout.keyguard_clock_hyperos, // 99
+        R.layout.keyguard_clock_graffiti_art, // 100
+        R.layout.keyguard_clock_graffiti_stack, // 101
+        R.layout.keyguard_clock_graffiti_compact // 102
     )
+
+    fun isGraffitiLayout(layoutRes: Int): Boolean = when (layoutRes) {
+        R.layout.keyguard_clock_graffiti_art,
+        R.layout.keyguard_clock_graffiti_stack,
+        R.layout.keyguard_clock_graffiti_compact -> true
+        else -> false
+    }
 
     fun getClockNames(): Array<String> {
         return arrayOf(
@@ -213,7 +223,10 @@ object ClockUtils {
             "HyperOS tall",
             "HyperOS tall2",
             "HyperOS tall3",
-            "HyperOS stack"
+            "HyperOS stack",
+            "Graffiti Art",
+            "Graffiti Stack",
+            "Graffiti Compact"
         )
     }
 }

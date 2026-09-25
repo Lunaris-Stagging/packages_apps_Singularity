@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="package_installer_style_title">Package installer style</string>
+    <string name="package_installer_style_aosp">AOSP</string>
+    <string name="package_installer_style_compose_dialog">Compose dialog</string>
+    <string name="package_installer_style_compose_bottom_sheet">Compose bottom sheet</string>
+
+    <string-array name="package_installer_style_entries">
+        <item>@string/package_installer_style_aosp</item>
+        <item>@string/package_installer_style_compose_dialog</item>
+        <item>@string/package_installer_style_compose_bottom_sheet</item>
+    </string-array>
+
+    <string-array name="package_installer_style_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+</resources>
