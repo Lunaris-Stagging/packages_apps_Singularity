@@ -282,7 +282,8 @@ private fun ClockItem(
 
                             LayoutInflater.from(ctx).inflate(layoutRes, this, true)
 
-                            if (childCount > 0) {
+                            // Graffiti thumbnails already fit the card's available width.
+                            if (childCount > 0 && !ClockUtils.isGraffitiLayout(layoutRes)) {
                                 val child = getChildAt(0)
                                 child.scaleX = 0.45f
                                 child.scaleY = 0.45f
