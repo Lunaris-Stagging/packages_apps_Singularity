@@ -2958,4 +2958,10 @@
     <!-- Screenshot flash -->
     <string name="miscellaneous_screenshot_flash_title">Show screenshot flash</string>
     <string name="miscellaneous_screenshot_flash_summary">Briefly flash the screen when a screenshot is taken</string>
+
+    <!-- Package installer -->
+    <string name="package_installer_style_title">Package installer style</string>
+    <string name="package_installer_style_aosp">AOSP</string>
+    <string name="package_installer_style_compose_dialog">Compose dialog</string>
+    <string name="package_installer_style_compose_bottom_sheet">Compose bottom sheet</string>
 </resources>
