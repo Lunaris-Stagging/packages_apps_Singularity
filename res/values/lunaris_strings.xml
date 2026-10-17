@@ -3037,6 +3037,8 @@
     <string name="qs_mist_left_title">Quick Settings on the left</string>
     <string name="qs_mist_left_summary">Open Quick Settings from the left edge when split Quick Settings is enabled</string>
     <string name="qs_mist_tile_shape_title">Tile shape</string>
+    <string name="qs_mist_slider_percentage_title">Show slider percentages</string>
+    <string name="qs_mist_slider_percentage_summary">Display percentage values on brightness, volume, and flashlight sliders</string>
     <string name="qs_mist_spacing_title">Spacing</string>
     <string name="qs_mist_tile_gap_title">Tile gap</string>
     <string name="qs_mist_tile_gap_summary">Space between tiles and controls</string>

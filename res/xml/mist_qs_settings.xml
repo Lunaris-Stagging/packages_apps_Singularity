@@ -36,6 +36,12 @@
         android:summary="%s"
         android:defaultValue="0" />
 
+    <org.lunaris.settings.preferences.SecureSettingSwitchPreference
+        android:key="ax_qs_show_slider_percentage"
+        android:title="@string/qs_mist_slider_percentage_title"
+        android:summary="@string/qs_mist_slider_percentage_summary"
+        android:defaultValue="false" />
+
     <PreferenceCategory
         android:title="@string/qs_mist_spacing_title">
 
