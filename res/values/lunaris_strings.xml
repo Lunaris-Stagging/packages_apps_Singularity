@@ -2866,6 +2866,8 @@
     <string name="dynamic_island_features_title">Features</string>
     <string name="dynamic_island_media_controls_title">Media controls</string>
     <string name="dynamic_island_media_controls_summary">Show playback controls and artwork in the island</string>
+    <string name="dynamic_island_redesigned_media_title">Use redesigned expanded media</string>
+    <string name="dynamic_island_redesigned_media_summary">Use the new media layout with animated artwork and its own background. Turn off to use the original layout and popup background setting.</string>
     <string name="dynamic_island_screen_recording_title">Screen recording</string>
     <string name="dynamic_island_screen_recording_summary">Show the recording timer and controls in the island</string>
     <string name="dynamic_island_alarms_title">Alarms</string>
@@ -3055,4 +3057,9 @@
 
     <string name="qs_mist_enabled_title">Moduler Quick Settings</string>
     <string name="qs_mist_enabled_summary">Use the new moduler design for the header, tiles, sliders, media player, and editor. Requires a SystemUI restart.</string>
+    <string name="media_seekbar_style_title">Media seekbar style</string>
+    <string name="media_seekbar_style_default">Default</string>
+    <string name="media_seekbar_style_waveform">Waveform</string>
+    <string name="media_seekbar_style_glowing">Glowing</string>
+
 </resources>
