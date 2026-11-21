@@ -23,6 +23,12 @@
             android:summary="@string/oneui_collapsing_toolbar_summary"
             android:defaultValue="false" />
 
+        <Preference
+            android:key="advanced_blur_config"
+            android:title="@string/advanced_blur_title"
+            android:summary="@string/advanced_blur_summary"
+            android:fragment="org.lunaris.settings.fragments.themes.AdvancedBlurSettings" />
+
         <!-- QuickSwitch -->
         <Preference
             android:key="quickswitch"
