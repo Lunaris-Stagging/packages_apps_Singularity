@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/advanced_blur_title">
+
+    <org.lunaris.settings.fragments.themes.AdvancedBlurPreviewPreference
+        android:key="advanced_blur_preview" />
+
+    <Preference
+        android:key="advanced_blur_active"
+        android:title="@string/advanced_blur_active_title"
+        android:selectable="false" />
+
+    <Preference
+        android:key="advanced_blur_load"
+        android:title="@string/advanced_blur_load_title"
+        android:summary="@string/advanced_blur_load_summary" />
+
+    <Preference
+        android:key="advanced_blur_remove"
+        android:title="@string/advanced_blur_remove_title"
+        android:summary="@string/advanced_blur_remove_summary" />
+
+    <Preference
+        android:title="@string/advanced_blur_edit_title"
+        android:summary="@string/advanced_blur_edit_summary"
+        android:selectable="false" />
+
+</PreferenceScreen>
