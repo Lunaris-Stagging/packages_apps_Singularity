@@ -149,6 +149,7 @@ internal val lunarisBarAppearanceOptions =
         ),
         LunarisBarOption("offset_x", "slider", 0, -200, 200),
         LunarisBarOption("offset_y", "slider", 0, -24, 100),
+        LunarisBarOption("stacked_compact"),
         LunarisBarOption(
             "expanded_mode",
             "choice",

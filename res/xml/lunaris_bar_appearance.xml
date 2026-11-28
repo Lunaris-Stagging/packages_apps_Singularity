@@ -127,6 +127,12 @@
         android:key="appearance_expanded"
         android:title="@string/lunaris_bar_appearance_expanded">
 
+        <SwitchPreferenceCompat
+            android:key="stacked_compact"
+            android:title="@string/lunaris_bar_stacked_compact"
+            android:persistent="false"
+            android:summary="@string/lunaris_bar_stacked_compact_description" />
+
         <ListPreference
             android:key="expanded_mode"
             android:title="@string/lunaris_bar_expanded_mode"

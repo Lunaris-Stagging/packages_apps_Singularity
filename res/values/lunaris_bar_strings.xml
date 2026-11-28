@@ -418,4 +418,6 @@
     <string name="lunaris_bar_custom_radius_description">Applies to the compact chip and rounded or squircle expanded backgrounds. The small companion chip stays round.</string>
     <string name="lunaris_bar_expanded_mode_description">Moves the expanded card below the status bar while preserving the compact chip size.</string>
     <string name="lunaris_bar_expanded_shape_description">Changes the expanded card background, including the lyrics card.</string>
+    <string name="lunaris_bar_stacked_compact">Stacked compact mode</string>
+    <string name="lunaris_bar_stacked_compact_description">Show active expanded cards in a compact vertical stack instead of one large card at a time.</string>
 </resources>
