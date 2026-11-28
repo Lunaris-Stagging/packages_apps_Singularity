@@ -48,6 +48,25 @@ public class SystemBlurSettings extends SettingsPreferenceFragment {
     private static final String KEY_SYSTEM_BLUR_RADIUS = "system_blur_radius";
     private static final String STATE_LIGHT_BACKDROP = "system_blur_light_backdrop";
     private static final float MAX_SYSTEM_BLUR_RADIUS_DP = 34f;
+    private static final String[] CLASSIC_RIM_KEYS = {
+            AxBlurCustomization.RIM_TOP_ALPHA,
+            AxBlurCustomization.RIM_BOTTOM_ALPHA,
+            AxBlurCustomization.RIM_SIDE_ALPHA,
+            AxBlurCustomization.RIM_EDGE_WIDTH,
+            AxBlurCustomization.RIM_GLOW_DEPTH,
+            AxBlurCustomization.RIM_GLOW_ALPHA,
+            AxBlurCustomization.RIM_CORNER_WIDTH_SCALE,
+            AxBlurCustomization.RIM_CORNER_ALPHA_SCALE,
+            AxBlurCustomization.RIM_CORNER_TAPER_POWER,
+    };
+    private static final String[] DIRECTIONAL_RIM_KEYS = {
+            AxBlurCustomization.RIM_LIGHT_ANGLE,
+            AxBlurCustomization.RIM_LIGHT_INTENSITY,
+            AxBlurCustomization.RIM_OPPOSITE_INTENSITY,
+            AxBlurCustomization.RIM_LIGHT_ANGLE_RANGE,
+            AxBlurCustomization.RIM_GLASS_EDGE_WIDTH,
+            AxBlurCustomization.RIM_GLASS_EDGE_POW,
+    };
 
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private final Runnable mCustomizationListener = this::refreshPreview;
@@ -77,9 +96,20 @@ public class SystemBlurSettings extends SettingsPreferenceFragment {
         addPreferencesFromResource(R.xml.system_blur_settings);
         ((CustomSeekBarPreference) findPreference(AxBlurCustomization.RIM_CORNER_TAPER_POWER))
                 .setMin(1);
+        ((CustomSeekBarPreference) findPreference(AxBlurCustomization.RIM_LIGHT_ANGLE_RANGE))
+                .setMin(15);
+        ((CustomSeekBarPreference) findPreference(AxBlurCustomization.RIM_GLASS_EDGE_WIDTH))
+                .setMin(10);
+        ((CustomSeekBarPreference) findPreference(AxBlurCustomization.RIM_GLASS_EDGE_POW))
+                .setMin(5);
         findPreference(AxBlurCustomization.TINT_MODE).setOnPreferenceChangeListener(
                 (preference, value) -> {
                     updateCustomColor(Integer.parseInt((String) value));
+                    return true;
+                });
+        findPreference(AxBlurCustomization.RIM_STYLE).setOnPreferenceChangeListener(
+                (preference, value) -> {
+                    updateRimStyleVisibility(Integer.parseInt((String) value));
                     return true;
                 });
     }
@@ -176,8 +206,11 @@ public class SystemBlurSettings extends SettingsPreferenceFragment {
     @Override
     public void onResume() {
         super.onResume();
-        updateCustomColor(Settings.Global.getInt(requireContext().getContentResolver(),
+        final ContentResolver resolver = requireContext().getContentResolver();
+        updateCustomColor(Settings.Global.getInt(resolver,
                 AxBlurCustomization.TINT_MODE, AxBlurCustomization.TINT_ACCENT));
+        updateRimStyleVisibility(Settings.Global.getInt(resolver,
+                AxBlurCustomization.RIM_STYLE, AxBlurCustomization.DEFAULT_RIM_STYLE));
         refreshPreview();
     }
 
@@ -201,6 +234,18 @@ public class SystemBlurSettings extends SettingsPreferenceFragment {
         }
     }
 
+    private void updateRimStyleVisibility(int style) {
+        final boolean directional = style == AxBlurCustomization.RIM_STYLE_DIRECTIONAL_GLASS;
+        for (String key : CLASSIC_RIM_KEYS) {
+            final Preference pref = findPreference(key);
+            if (pref != null) pref.setVisible(!directional);
+        }
+        for (String key : DIRECTIONAL_RIM_KEYS) {
+            final Preference pref = findPreference(key);
+            if (pref != null) pref.setVisible(directional);
+        }
+    }
+
     private void updateBackdropToggleLabel() {
         if (mBackdropToggle == null) return;
         mBackdropToggle.setText(mLightBackdrop
@@ -219,6 +264,8 @@ public class SystemBlurSettings extends SettingsPreferenceFragment {
         final float effectiveRadiusPx = blurDisabled
                 ? 0f : state.resolveRadius(context, defaultRadiusPx);
 
+        updateRimStyleVisibility(Settings.Global.getInt(context.getContentResolver(),
+                AxBlurCustomization.RIM_STYLE, AxBlurCustomization.DEFAULT_RIM_STYLE));
         mPreviewView.setPreviewState(state, effectiveRadiusPx);
         mHeaderSummary.setText(buildHeaderSummary(context, state, effectiveRadiusPx, blurDisabled));
         mValuesSummary.setText(buildRimValuesSummary(state));
@@ -262,7 +309,18 @@ public class SystemBlurSettings extends SettingsPreferenceFragment {
             return getString(R.string.system_blur_rim_category) + ": "
                     + getString(R.string.system_blur_preview_state_off);
         }
-        return formatColorHex(rim.color)
+        final String styleLabel = formatRimStyle(requireContext(), rim.style);
+        if (rim.style == AxBlurCustomization.RIM_STYLE_DIRECTIONAL_GLASS) {
+            return styleLabel + " · " + formatColorHex(rim.color)
+                    + " · Str " + Math.round(rim.strength * 100f) + "%"
+                    + " · Angle " + Math.round(rim.lightAngleDeg) + "°\n"
+                    + "Light " + Math.round(rim.lightIntensity * 100f) + "/"
+                    + Math.round(rim.oppositeLightIntensity * 100f) + "%"
+                    + " · Spread " + Math.round(rim.lightAngleRange * 100f) + "%"
+                    + " · Bevel " + formatDecimal(rim.glassEdgeWidthDp) + "dp ("
+                    + formatDecimal(rim.glassEdgePower) + ")";
+        }
+        return styleLabel + " · " + formatColorHex(rim.color)
                 + " · Str " + Math.round(rim.strength * 100f) + "%"
                 + " · Top " + Math.round(rim.topAlpha * 100f) + "%"
                 + " · Btm " + Math.round(rim.bottomAlpha * 100f) + "%"
@@ -273,6 +331,11 @@ public class SystemBlurSettings extends SettingsPreferenceFragment {
                 + " · Cnr " + Math.round(rim.cornerWidthScale * 100f) + "/"
                 + Math.round(rim.cornerAlphaScale * 100f) + "% ("
                 + formatDecimal(rim.cornerTaperPower) + ")";
+    }
+
+    private String formatRimStyle(Context context, int style) {
+        final String[] styles = context.getResources().getStringArray(R.array.system_blur_rim_styles);
+        return (style >= 0 && style < styles.length) ? styles[style] : "";
     }
 
     private String buildDetailedValuesText(Context context) {
@@ -306,28 +369,46 @@ public class SystemBlurSettings extends SettingsPreferenceFragment {
         sb.append(getString(R.string.system_blur_rim_category)).append(": ")
                 .append(rim.enabled ? on : off).append('\n');
         if (rim.enabled) {
-            sb.append(getString(R.string.system_blur_rim_color_title)).append(": ")
+            sb.append(getString(R.string.system_blur_rim_style_title)).append(": ")
+                    .append(formatRimStyle(context, rim.style)).append('\n')
+                    .append(getString(R.string.system_blur_rim_color_title)).append(": ")
                     .append(formatColorHex(rim.color)).append('\n')
                     .append(getString(R.string.system_blur_rim_strength_title)).append(": ")
-                    .append(Math.round(rim.strength * 100f)).append("%\n")
-                    .append(getString(R.string.system_blur_rim_top_title)).append(": ")
-                    .append(Math.round(rim.topAlpha * 100f)).append("%\n")
-                    .append(getString(R.string.system_blur_rim_bottom_title)).append(": ")
-                    .append(Math.round(rim.bottomAlpha * 100f)).append("%\n")
-                    .append(getString(R.string.system_blur_rim_side_title)).append(": ")
-                    .append(Math.round(rim.sideAlpha * 100f)).append("%\n")
-                    .append(getString(R.string.system_blur_rim_width_title)).append(": ")
-                    .append(formatDecimal(rim.edgeWidthDp)).append(" dp\n")
-                    .append(getString(R.string.system_blur_rim_depth_title)).append(": ")
-                    .append(formatDecimal(rim.glowDepthDp)).append(" dp\n")
-                    .append(getString(R.string.system_blur_rim_glow_title)).append(": ")
-                    .append(Math.round(rim.glowAlpha * 100f)).append("%\n")
-                    .append(getString(R.string.system_blur_rim_corner_width_title)).append(": ")
-                    .append(Math.round(rim.cornerWidthScale * 100f)).append("%\n")
-                    .append(getString(R.string.system_blur_rim_corner_brightness_title))
-                    .append(": ").append(Math.round(rim.cornerAlphaScale * 100f)).append("%\n")
-                    .append(getString(R.string.system_blur_rim_taper_title)).append(": ")
-                    .append(formatDecimal(rim.cornerTaperPower));
+                    .append(Math.round(rim.strength * 100f)).append("%\n");
+            if (rim.style == AxBlurCustomization.RIM_STYLE_DIRECTIONAL_GLASS) {
+                sb.append(getString(R.string.system_blur_rim_light_angle_title)).append(": ")
+                        .append(Math.round(rim.lightAngleDeg)).append("°\n")
+                        .append(getString(R.string.system_blur_rim_light_intensity_title))
+                        .append(": ").append(Math.round(rim.lightIntensity * 100f)).append("%\n")
+                        .append(getString(R.string.system_blur_rim_opposite_intensity_title))
+                        .append(": ").append(Math.round(rim.oppositeLightIntensity * 100f))
+                        .append("%\n")
+                        .append(getString(R.string.system_blur_rim_light_angle_range_title))
+                        .append(": ").append(Math.round(rim.lightAngleRange * 100f)).append("%\n")
+                        .append(getString(R.string.system_blur_rim_glass_edge_width_title))
+                        .append(": ").append(formatDecimal(rim.glassEdgeWidthDp)).append(" dp\n")
+                        .append(getString(R.string.system_blur_rim_glass_edge_pow_title))
+                        .append(": ").append(formatDecimal(rim.glassEdgePower));
+            } else {
+                sb.append(getString(R.string.system_blur_rim_top_title)).append(": ")
+                        .append(Math.round(rim.topAlpha * 100f)).append("%\n")
+                        .append(getString(R.string.system_blur_rim_bottom_title)).append(": ")
+                        .append(Math.round(rim.bottomAlpha * 100f)).append("%\n")
+                        .append(getString(R.string.system_blur_rim_side_title)).append(": ")
+                        .append(Math.round(rim.sideAlpha * 100f)).append("%\n")
+                        .append(getString(R.string.system_blur_rim_width_title)).append(": ")
+                        .append(formatDecimal(rim.edgeWidthDp)).append(" dp\n")
+                        .append(getString(R.string.system_blur_rim_depth_title)).append(": ")
+                        .append(formatDecimal(rim.glowDepthDp)).append(" dp\n")
+                        .append(getString(R.string.system_blur_rim_glow_title)).append(": ")
+                        .append(Math.round(rim.glowAlpha * 100f)).append("%\n")
+                        .append(getString(R.string.system_blur_rim_corner_width_title)).append(": ")
+                        .append(Math.round(rim.cornerWidthScale * 100f)).append("%\n")
+                        .append(getString(R.string.system_blur_rim_corner_brightness_title))
+                        .append(": ").append(Math.round(rim.cornerAlphaScale * 100f)).append("%\n")
+                        .append(getString(R.string.system_blur_rim_taper_title)).append(": ")
+                        .append(formatDecimal(rim.cornerTaperPower));
+            }
         }
         return sb.toString();
     }
@@ -402,6 +483,18 @@ public class SystemBlurSettings extends SettingsPreferenceFragment {
                 AxBlurCustomization.DEFAULT_RIM_CORNER_ALPHA_SCALE);
         resetSeekBar(resolver, AxBlurCustomization.RIM_CORNER_TAPER_POWER,
                 AxBlurCustomization.DEFAULT_RIM_CORNER_TAPER_POWER_TENTHS);
+        resetSeekBar(resolver, AxBlurCustomization.RIM_LIGHT_ANGLE,
+                AxBlurCustomization.DEFAULT_RIM_LIGHT_ANGLE);
+        resetSeekBar(resolver, AxBlurCustomization.RIM_LIGHT_INTENSITY,
+                AxBlurCustomization.DEFAULT_RIM_LIGHT_INTENSITY);
+        resetSeekBar(resolver, AxBlurCustomization.RIM_OPPOSITE_INTENSITY,
+                AxBlurCustomization.DEFAULT_RIM_OPPOSITE_INTENSITY);
+        resetSeekBar(resolver, AxBlurCustomization.RIM_LIGHT_ANGLE_RANGE,
+                AxBlurCustomization.DEFAULT_RIM_LIGHT_ANGLE_RANGE);
+        resetSeekBar(resolver, AxBlurCustomization.RIM_GLASS_EDGE_WIDTH,
+                AxBlurCustomization.DEFAULT_RIM_GLASS_EDGE_WIDTH_TENTHS);
+        resetSeekBar(resolver, AxBlurCustomization.RIM_GLASS_EDGE_POW,
+                AxBlurCustomization.DEFAULT_RIM_GLASS_EDGE_POW_TENTHS);
 
         refreshPreview();
         Toast.makeText(context, R.string.system_blur_preview_rim_reset_done,

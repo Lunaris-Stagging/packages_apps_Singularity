@@ -3,6 +3,7 @@
     <string name="system_blur_rim_category">Glass rim</string>
     <string name="system_blur_rim_title">Enable glass rim</string>
     <string name="system_blur_rim_summary">Add soft edge highlights to system and launcher blur surfaces</string>
+    <string name="system_blur_rim_style_title">Rim style</string>
     <string name="system_blur_rim_color_title">Rim color</string>
     <string name="system_blur_rim_strength_title">Overall brightness</string>
     <string name="system_blur_rim_top_title">Top edge brightness</string>
@@ -16,6 +17,13 @@
     <string name="system_blur_rim_corner_brightness_title">Corner brightness</string>
     <string name="system_blur_rim_taper_title">Corner taper</string>
     <string name="system_blur_rim_taper_summary">Higher values concentrate thinning more narrowly in the corners</string>
+    <string name="system_blur_rim_light_angle_title">Light angle</string>
+    <string name="system_blur_rim_light_intensity_title">Primary light intensity</string>
+    <string name="system_blur_rim_opposite_intensity_title">Opposite rim bounce</string>
+    <string name="system_blur_rim_light_angle_range_title">Light spread</string>
+    <string name="system_blur_rim_glass_edge_width_title">Glass bevel depth</string>
+    <string name="system_blur_rim_glass_edge_pow_title">Edge sharpness</string>
+    <string name="system_blur_rim_glass_edge_pow_summary">Higher values concentrate the specular highlight closer to the outer edge</string>
 
     <!-- System blur live preview and current values UI -->
     <string name="system_blur_preview_description">Live preview of system blur, tint and glass rim</string>

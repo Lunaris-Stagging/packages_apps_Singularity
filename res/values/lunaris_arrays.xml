@@ -2096,5 +2096,13 @@
         <item>1</item>
         <item>2</item>
     </string-array>
+    <string-array name="system_blur_rim_styles">
+        <item>Classic frosted</item>
+        <item>Directional glass</item>
+    </string-array>
+    <string-array name="system_blur_rim_style_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
 
 </resources>
